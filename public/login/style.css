@@ -1,0 +1,33 @@
+.back-gradient {
+  background: #136a8a;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #267871, #136a8a);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #267871, #136a8a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.bg-fill {
+  height:100vh;
+  width:100vw;
+  padding-top:5px;
+}
+
+.login-card {
+    background: #E0E0E0;
+    height: 450px;
+    width: 400px;
+    margin: 50px auto 100px;
+    box-shadow: 5px 5px 15px black;
+}
+
+.login-title {
+  font-family:sans-serif;
+  padding:6px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.mg-bottom {
+  margin-bottom:12px;
+}
+.mg-bottom-lastitem {
+  margin-bottom:25px;
+}

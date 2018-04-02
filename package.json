@@ -1,0 +1,29 @@
+{
+  "name": "testmate",
+  "version": "1.0.0",
+  "description": "Live test taking system",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salmaan72/testmate.git"
+  },
+  "author": "Salmaan Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salmaan72/testmate/issues"
+  },
+  "homepage": "https://github.com/salmaan72/testmate#readme",
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "ejs": "2.5.8",
+    "express": "4.16.3",
+    "jade": "1.11.0",
+    "jsonwebtoken": "8.2.0",
+    "mongoose": "5.0.12",
+    "nodemon": "1.17.3"
+  }
+}
