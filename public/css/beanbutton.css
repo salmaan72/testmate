@@ -1,0 +1,30 @@
+.bean-button {
+    padding:10px 25px;
+    border: 1px solid #005690;
+    border-radius: 25px;
+    color: black;
+    background: white;
+    font-size:14px;
+    text-decoration-line: none;
+}
+.bean-button:hover {
+    background: #005690;
+    color: white;
+    text-decoration-line: none;
+}
+
+/* bean button white */
+.bean-button-orange {
+    padding:15px 30px;
+    border: 2px solid white;
+    border-radius: 25px;
+    color: white;
+    background: orangered;
+    font-size:20px;
+    text-decoration-line: none;
+}
+.bean-button-orange:hover {
+    background: white;
+    color: orangered;
+    text-decoration-line: none;
+}

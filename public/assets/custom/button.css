@@ -1,0 +1,16 @@
+/* white button on black background */
+.white-button-style {
+    color: white;
+    border: white solid 2px;
+    border-radius: 25px;
+    text-decoration-line: none;
+    padding:10px 25px;
+    font-family: monospace;
+    font-weight: 700;
+    background: black;
+    
+}
+.white-button-style:hover {
+    background: white;
+    color: black;
+}

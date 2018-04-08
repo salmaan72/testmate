@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
+    <link rel="stylesheet" href="/css/cpanel_menu.css" type="text/css">
+    <link rel="stylesheet" href="/css/beanbutton.css" type="text/css">
+    <title>control panel</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark nav-tweaks">
+        <div class="container">
+            <a class="navbar-brand font-brand" href="/">TestMate</a>
+            <form method="post" action="/logout">
+                <button type="submit" class="nav-button-logout">Logout</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container cpanel-menu">
+        <div class="card card-style" style="width: 18rem;">
+            <img class="card-img-top" src="/assets/images/create.jpeg" alt="create test image">
+            <div class="card-body">
+                <h5 class="card-title">Create Test</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="/admin/create-test" class="bean-button">Create a Test</a>
+            </div>
+        </div>
+        <div class="card card-style" style="width: 18rem;">
+            <img class="card-img-top" src="/assets/images/edit.jpeg" alt="edit test image">
+            <div class="card-body">
+                <h5 class="card-title">Edit Test</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="bean-button">Edit a Test</a>
+            </div>
+        </div>
+        <div class="card card-style" style="width: 18rem;">
+            <img class="card-img-top" src="/assets/images/tweaks.jpg" alt="tweaks image">
+            <div class="card-body">
+                <h5 class="card-title">Admin Account Tweaks</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="bean-button">Make Some Changes</a>
+            </div>
+        </div>
+    </div>
+
+  </body>
+</html>

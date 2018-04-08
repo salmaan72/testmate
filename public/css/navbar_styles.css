@@ -1,0 +1,26 @@
+/* font-family: 'Lobster', cursive; */
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+.font-brand {
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+    color:white;
+}
+.nav-tweaks {
+    display: flex;
+    padding-left: 100px;
+    padding-right:100px;
+    position: sticky;
+}
+.nav-button-logout {
+    padding: 5px 30px;
+    border-radius: 25px;
+    border:1px solid white;
+    color: white;
+    background: #25292D;
+    font-size: 15px;
+}
+.nav-button-logout:hover {
+    background: white;
+    color: black;
+}

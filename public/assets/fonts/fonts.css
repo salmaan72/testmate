@@ -1,0 +1,29 @@
+/* font-family: 'Lobster', cursive; */
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+.font-lobster {
+    font-family: 'Lobster', cursive;
+}
+
+/* font-family: 'Quicksand', sans-serif; */
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+.font-quicksand {
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* font-family: 'Concert One', cursive; */
+@import url('https://fonts.googleapis.com/css?family=Concert+One');
+.font-concertone {
+    font-family: 'Concert One', cursive;
+}
+
+/* font-family: 'Duru Sans', sans-serif; */
+@import url('https://fonts.googleapis.com/css?family=Duru+Sans');
+.font-durusans {
+    font-family: 'Duru Sans', sans-serif;
+}
+
+/* font-family: 'Roboto', sans-serif; */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}

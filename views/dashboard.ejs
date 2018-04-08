@@ -1,31 +1,91 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-dark bg-dark static-top" style="position:sticky; top:0; z-index:10">
-            <div class="container">
-              <p><a class="navbar-brand" href="/">TestMate</a> | Dashboard</p>
-              <p><%= userData%></p>
-              <form action="/logout" method="post">
-                <button class="btn btn-primary" type="submit">Logout</a>
-              </form>
-            </div>
-          </nav>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
+  <link rel="stylesheet" href="/css/beanbutton.css" type="text/css">
+  <link rel="stylesheet" href="/css/dashboard_style.css" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <title>Dashboard</title>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-dark bg-dark nav-tweaks">
+    <div class="container-fluid">
+      <a class="navbar-brand font-brand" href="/">TestMate</a>
+      <form method="post" action="/logout">
+        <button type="submit" class="nav-button-logout">Logout</button>
+      </form>
+    </div>
+  </nav>
+  <div class="container-fluid outer-container">
+    <div class="side-nav">
+      <div class="container-fluid dashboard-title">
+        <p class="font" id="rm-margin">DASHBOARD</p>
+      </div>
+      <div class="side-nav-buttons">
+        <button type="button" class="side-nav-btn-style" id="profile" >PROFILE</button>
+        <button type="button" class="side-nav-btn-style" id="tests-taken">TESTS TAKEN</button>
+        <button type="button" class="side-nav-btn-style" id="tests-available">TESTS AVAILABLE</button>
+      </div>
+    </div>
+    <div class="main-profile" id="main-profile-id">
+
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      function welcomeEvent(){
+        $('#profile').trigger('click');
+      }
+
+      // profile button
+      $('.side-nav-buttons').on('click', '#profile', function () {
+        console.log('clicked');
+        $("#main-profile-id").load('/profile ' + '#profile-outer-container');
+      });
+      //tests taken button
+      $('.side-nav-buttons').on('click', '#tests-taken', function () {
+        console.log('clicked');
+        $("#main-profile-id").load('/tests-taken ' + '#tt-outer-container');
+      });
+      //tests available button
+      $('.side-nav-buttons').on('click', '#tests-available', function () {
+        console.log('clicked');
+        $("#main-profile-id").load('/tests-available ' + '#ta-outer-container');
+      });
+
+
+    });
+  </script>
+
+</body>
+
 </html>

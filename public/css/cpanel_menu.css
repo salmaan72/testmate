@@ -1,0 +1,9 @@
+.cpanel-menu {
+    display: flex;
+    justify-content: space-around;
+    margin-top:35px;
+    
+}
+.card-style {
+    box-shadow: 2px 2px 20px grey;
+}

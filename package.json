@@ -23,7 +23,10 @@
     "express": "4.16.3",
     "jade": "1.11.0",
     "jsonwebtoken": "8.2.0",
-    "mongoose": "5.0.12",
-    "nodemon": "1.17.3"
+    "mongoose": "5.0.1",
+    "morgan": "1.9.0",
+    "mustache-express": "1.2.5",
+    "nodemon": "1.17.3",
+    "socket.io": "2.1.0"
   }
 }

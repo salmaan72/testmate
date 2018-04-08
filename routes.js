@@ -35,9 +35,48 @@ routes.get('/dashboard', dashboardController.dashboard);
 
 routes.post('/logout', userController.logout);
 
-// redirects
-routes.get('/signup-success', function(req,res){
-  res.render('signupSuccess');
+// side-nav-buttons-clicked-routes ***********************************************************
+routes.get('/tests-taken', function(req,res){
+  res.render('testsTaken');
+});
+routes.get('/profile', function(req,res){
+  res.render('profile');
+});
+routes.get('/tests-available',function(req,res){
+  res.render('testsAvailable');
 })
+
+// redirects
+routes.post('/signup-success', function(req,res){
+  res.render('signupSuccess');
+});
+
+//******************************** Admin routes ***********************************//
+
+// control panel
+routes.get('/admin/controlpanel', function(req,res){
+  let token = splitCookies.cookieSplit(req.headers.cookie).token;
+  verifyToken.verifyUserToken(token,res,function(authData){
+    if(authData.user === 'admin@testmate.com'){
+      res.render('cpanel');
+    }
+    else{
+      res.send('not admin');
+    }   
+  }); 
+});
+
+// create a test
+routes.get('/admin/create-test', function(req,res){
+  let token = splitCookies.cookieSplit(req.headers.cookie).token;
+  verifyToken.verifyUserToken(token,res,function(authData){
+    if(authData.user === 'admin@testmate.com'){
+      res.render('createTest');
+    }
+    else{
+      res.send('not admin');
+    }
+  });
+});
 
 module.exports = routes;

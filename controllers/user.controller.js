@@ -19,7 +19,7 @@ userController.signup = function(req,res){
     confirmPassword: req.body.confirmPassword
   });
   newUser.save().then(function(){
-    res.redirect('/signup-success');
+    res.redirect(307, '/signup-success');
   });
 }
 
