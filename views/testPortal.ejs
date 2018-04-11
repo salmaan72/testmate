@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/testPortal_styles.css" type="text/css">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Test Portal</title>
+</head>
+
+<body>
+    <div class="outer-container">
+        <div class="header">
+            <div class="uname">salmaan</div>
+            <div class="test-name">
+                <%= testName %>
+            </div>
+            <div class="exit-test-btn">
+                <button class="btn btn-primary">Exit Test</button>
+            </div>
+
+        </div>
+        <div class="middle-bar">
+            <div class="ques-num-col">
+                <ul class="list-group ul-ques-num">
+                    <%
+                        let num = numOfQues;
+                        let i=1;
+                        while(i <= num){
+                        %>
+                        <li class="list-group-item">
+                            <button class="round-btn" id="round-btn-id" value="<%= i %>">
+                                <%= i %>
+                            </button>
+                        </li>
+                        <%
+                            i++;
+                        }
+                    %>
+
+                </ul>
+            </div>
+            <div class="ques-col">
+                <div class="question-number">
+                    <label>Question: <p id="question-number-label"></p></label>
+                </div>
+                <div class="question-text" id="question-text-id">
+
+                </div>
+                <div class="question-options" id="question-options-id">
+                    <form>
+                        <div>
+                          <input type="radio" id="choice1" name="opt-question" value="a">
+                          <label for="choice1" id="c1"></label>
+                      
+                          <input type="radio" id="choice2" name="opt-question" value="b">
+                          <label for="choice2" id="c2"></label>
+                      
+                          <input type="radio" id="choice3" name="opt-question" value="c">
+                          <label for="choice3" id="c3"></label>
+
+                          <input type="radio" id="choice4" name="opt-question" value="d">
+                          <label for="choice4" id="c4"></label>
+                        </div>
+                        <div>
+                          <button class="btn btn-primary" type="submit">confirm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="nxt-prev">
+                <div>
+                    <button class="btn btn-primary" id="prev-id">prev</button>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" id="next-id">next</button>
+                </div>
+            </div>
+            <div class="last-div">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <script>
+        "use strict"
+        $(document).ready(function(){
+            let _ques;
+            let _nofQuestions;
+            // socket connection
+            const socket = io();
+
+            socket.emit('get question', $('.test-name').text());
+
+            // socket events
+            socket.on('returned questions', function(ques){
+                _ques = ques;
+                _nofQuestions = ques.length;
+                $('#question-number-label').text('1');
+                $('#question-text-id').text(_ques[0]['question']);
+                // setting radio buttons
+                $('#c1').text(_ques[0]['option_a']);
+                $('#c2').text(_ques[0]['option_b']);
+                $('#c3').text(_ques[0]['option_c']);
+                $('#c4').text(_ques[0]['option_d']);
+                //check for first and last questions 
+                disable_prev();
+                disable_next();
+            });
+
+            // button click events
+            $('#next-id').click(function(){
+                let quesNum = Number($('#question-number-label').text());
+                quesNum++;
+                $('#question-number-label').text(String(quesNum));
+                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                //clear checked button
+                $('input[name="opt-question"]').prop('checked', false);
+                //setting radio buttons
+                $('#c1').text(_ques[quesNum-1]['option_a']);
+                $('#c2').text(_ques[quesNum-1]['option_b']);
+                $('#c3').text(_ques[quesNum-1]['option_c']);
+                $('#c4').text(_ques[quesNum-1]['option_d']);
+                
+                //check for first and last questions
+                disable_next();
+                disable_prev();
+            });
+            $('#prev-id').click(function(){
+                let quesNum = Number($('#question-number-label').text());
+                quesNum--;
+                $('#question-number-label').text(String(quesNum));
+                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                //clear checked button
+                $('input[name="option"]').prop('checked', false);
+                //setting radio buttons
+                $('#c1').text(_ques[quesNum-1]['option_a']);
+                $('#c2').text(_ques[quesNum-1]['option_b']);
+                $('#c3').text(_ques[quesNum-1]['option_c']);
+                $('#c4').text(_ques[quesNum-1]['option_d']);
+                //check for first and last questions
+                disable_prev();
+                disable_next();
+
+            });
+            
+            $('.ul-ques-num').on('click', '#round-btn-id', function(){
+                let quesNum = Number($(this).val());
+                console.log(quesNum);
+                $('#question-number-label').text(String(quesNum));
+                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                //clear checked button
+                $('input[name="option"]').prop('checked', false);
+                //setting radio buttons
+                $('#c1').text(_ques[quesNum-1]['option_a']);
+                $('#c2').text(_ques[quesNum-1]['option_b']);
+                $('#c3').text(_ques[quesNum-1]['option_c']);
+                $('#c4').text(_ques[quesNum-1]['option_d']);
+                //check for first and last questions
+                disable_prev();
+                disable_next();
+            });
+
+            //check for first or last question to eliminate prev and next buttons accordingly
+            function disable_prev(){
+                if(Number($('#question-number-label').text()) === 1){
+                    $('#prev-id').hide();
+                }
+                else if(Number($('#question-number-label').text()) !== 1){
+                    $('#prev-id').show();
+                }
+            }
+            function disable_next(){
+                if(Number($('#question-number-label').text()) === _nofQuestions){
+                    $('#next-id').hide();
+                }
+                else if(Number($('#question-number-label').text()) !== _nofQuestions){
+                    $('#next-id').show();
+                }
+            }
+
+        });// jquery ready function closing scope       
+    </script>
+</body>
+
+</html>

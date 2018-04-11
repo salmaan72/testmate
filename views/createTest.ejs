@@ -151,6 +151,7 @@
             socket.on('save status change', function(){
                 $(this).parentsUntil('#this-list').find('#save-status-id').removeClass('save-status');
                 $(this).parentsUntil('#this-list').find('#save-status-id').addClass('save-status-saved');
+                
             });
 
             // ###############################################
@@ -176,7 +177,7 @@
             
             // reset the title heading
             $('#reset').click(function(){
-                $('.r2').empty();
+                $('.list-ques').empty();
                 $('#notif-text-p').text('No Questions Generated');
             });
             
@@ -190,6 +191,7 @@
                     option_d: $(this).parentsUntil('#this-list').find('#option-d-id').val(),
                     answer: $(this).parentsUntil('#this-list').find('#ans-id').val()
                 };
+                
                 socket.emit('save question', question, testTitle);
             });
 

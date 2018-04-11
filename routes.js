@@ -7,6 +7,7 @@ const userController = require('./controllers/user.controller');
 const verifyToken = require('./libs/verifyToken');
 const splitCookies = require('./libs/splitCookies');
 const dashboardController = require('./controllers/dashboard.controller');
+const testPortal = require('./controllers/testPortal.controller');
 
 routes.get('/', function(req,res){
   res.render('home');
@@ -42,9 +43,10 @@ routes.get('/tests-taken', function(req,res){
 routes.get('/profile', function(req,res){
   res.render('profile');
 });
-routes.get('/tests-available',function(req,res){
-  res.render('testsAvailable');
-})
+routes.get('/tests-available', dashboardController.availableTests);
+
+// test taking route
+routes.post('/test-portal', testPortal.startTest);
 
 // redirects
 routes.post('/signup-success', function(req,res){

@@ -3,6 +3,7 @@
 const splitCookies = require('./../libs/splitCookies');
 const verifyToken = require('./../libs/verifyToken');
 const userModel = require('./../models/user.model');
+const testModel = require('./../models/test.model');
 
 let dashboardController = {};
 
@@ -26,6 +27,20 @@ dashboardController.dashboard = function(req,res){
         });
         
        //res.render('dashboard', {userData: authData.user});
+    });
+}
+
+dashboardController.availableTests = function(req,res){
+    let token = splitCookies.cookieSplit(req.headers.cookie).token;
+    verifyToken.verifyUserToken(token, res, function(authData){
+        let query = testModel.find({}).select('title');
+        query.exec(function(err, data){
+            if(err){
+                return err;
+            }
+            let count = data.length;
+            res.render('testsAvailable', { testsTitles:data, numOfTests: count });
+        });
     });
 }
 
