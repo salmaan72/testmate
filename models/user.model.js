@@ -10,8 +10,7 @@ const userSchema = new Schema({
     required: true
   },
   lastname: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
     type: String,
@@ -26,9 +25,21 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  confirmPassword: {
+  about: {
     type: String,
     required: true
+  },
+  education: {
+    high_school: {
+      school: String,
+      from_year: String,
+      to_year: String
+    },
+    highest_degree: {
+      school: String,
+      from_year: String,
+      to_year: String
+    }
   }
 });
 

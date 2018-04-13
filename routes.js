@@ -37,12 +37,8 @@ routes.get('/dashboard', dashboardController.dashboard);
 routes.post('/logout', userController.logout);
 
 // side-nav-buttons-clicked-routes ***********************************************************
-routes.get('/tests-taken', function(req,res){
-  res.render('testsTaken');
-});
-routes.get('/profile', function(req,res){
-  res.render('profile');
-});
+routes.get('/tests-taken', dashboardController.takenTests);
+routes.get('/profile', dashboardController.profile);
 routes.get('/tests-available', dashboardController.availableTests);
 
 // test taking route
@@ -52,6 +48,9 @@ routes.post('/test-portal', testPortal.startTest);
 routes.post('/signup-success', function(req,res){
   res.render('signupSuccess');
 });
+
+// user settings route
+routes.get('/dashboard/settings', dashboardController.settings);
 
 //******************************** Admin routes ***********************************//
 

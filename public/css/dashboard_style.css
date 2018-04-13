@@ -1,5 +1,14 @@
 /* font-family: 'Roboto', sans-serif; */
 
+/* on nav bar (center text)*/
+.current-page-text {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-top:10px;
+}
+
 .outer-container {
   padding-left:0;
   display: flex;

@@ -9,31 +9,34 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/css/dashboard_style.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
   <title>Tests Taken</title>
 </head>
 
 <body>
+    <nav class="navbar navbar-dark bg-dark nav-tweaks">
+        <div class="container-fluid">
+          <a class="navbar-brand font-brand" href="/">TestMate</a>
+          <form method="post" action="/logout">
+            <button type="submit" class="nav-button-logout">Logout</button>
+          </form>
+        </div>
+      </nav>
   <div class="tt-outer-container container-fluid" id="tt-outer-container">
     <div class="tt-inner-container">
       <div class="tt-list-tests">
         <ul class="list-group ul-list">
+          <% testsTakenArr.forEach(function(item){ %>
           <li class="list-group-item">
-            <div class="li-heading font">linux quiz 1</div>
+            <div class="li-heading font"><%=item.testName%></div>
             <div class="li-content">
-              <p class="font">Number of test attempted</p>
-              <p class="font">Percentage growth</p>
-              <p class="font">Average score</p>
+              <p class="font">Number of questions attempted: <%=item.totalQuestionsAttempted%></p>
+              <p class="font">Score: <%= item.score %></p>
+              <p class="font">Percentage: <%= item.percentage %></p>
             </div>
           </li>
-          <li class="list-group-item">
-            <div class="li-heading font">linux quiz 1</div>
-            <div class="li-content">
-              <p class="font">Number of test attempted</p>
-              <p class="font">Percentage growth</p>
-              <p class="font">Average score</p>
-            </div>
-          </li>
+          <% }); %>
         </ul>
       </div>
     </div>

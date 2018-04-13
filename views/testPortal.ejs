@@ -60,6 +60,7 @@
         </div>
         <div class="footer">
             <div class="nxt-prev">
+                <div class="btns-together">
                 <div>
                     <button class="btn btn-primary" id="prev-id">prev</button>
                 </div>
@@ -67,9 +68,15 @@
                 <div>
                     <button class="btn btn-primary" id="next-id">next</button>
                 </div>
+                </div>
+                
             </div>
             <div class="last-div">
-
+                <form action="/dashboard" method="get" id="submit-test-form">
+                <div class="finish-test-div">
+                    <button type="submit" class="btn btn-primary" id="finish-test-id">Finish Test</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -89,6 +96,10 @@
             let _nofQuestions;
             let _selected = [];
             let _questionNum;
+            let _testName;
+            
+            // hide submit test button
+            $('.finish-test-div').hide();
 
             let content = '<div id="radio-div-id" class="radio-div">'+ 
                         
@@ -112,9 +123,13 @@
             socket.emit('get question', $('.test-name').text());
 
             // socket events
-            socket.on('returned questions', function(ques){
+            socket.on('returned questions', function(ques, testName){
                 _ques = ques;
                 _nofQuestions = ques.length;
+                _testName = testName;
+
+                socket.emit('create test field', testName, 'salmaanshaik72@gmail.com');                
+
                 $('#question-number-label').text('1');
                 $('#question-text-id').text(_ques[0]['question']);
                 _questionNum = 1;
@@ -138,6 +153,7 @@
                 $('#question-number-label').text(String(quesNum));
                 $('#question-text-id').text(_ques[quesNum-1]['question']);
                 _questionNum = quesNum;
+                isLastQuestion(quesNum);
                 //clear checked button
                 //$('input[name="opt-question"]').prop('checked', false);
                 //setting radio buttons
@@ -162,6 +178,7 @@
                 $('#question-number-label').text(String(quesNum));
                 $('#question-text-id').text(_ques[quesNum-1]['question']);
                 _questionNum = quesNum;
+                isLastQuestion(quesNum);
                 //clear checked button
                 //$('input[name="option"]').prop('checked', false);
                 //setting radio buttons
@@ -188,6 +205,7 @@
                 $('#question-number-label').text(String(quesNum));
                 $('#question-text-id').text(_ques[quesNum-1]['question']);
                 _questionNum = quesNum;
+                isLastQuestion(quesNum);
                 //clear checked button
                 //$('input[name="option"]').prop('checked', false);
                 //setting radio buttons
@@ -196,7 +214,7 @@
                 $("input[name='opt-question']").attr('name', 'opt-question-'+quesNum);
                 //check for already checked questions
                 recheck_radio(quesNum);
-                
+
                 $("label[for='choice1']").text(_ques[quesNum-1]['option_a']);
                 $("label[for='choice2']").text(_ques[quesNum-1]['option_b']);
                 $("label[for='choice3']").text(_ques[quesNum-1]['option_c']);
@@ -211,9 +229,22 @@
                 $('#question-options-id').on('click', '#confirm-btn', function(){
                     //save checked question's answer to an array
                     let qname = 'opt-question-'+_questionNum;
-                    let obj = {};
-                    obj[qname] = $("input[name="+qname+"]:checked").val();
-                    _selected.push(obj);
+                    let flag = true;
+                   
+                    for(let p in _selected){
+                        if(_selected[p]['questionNum'] === _questionNum){
+                            _selected[p]['choice'] = $("input[name="+qname+"]:checked").val(); 
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        let obj = {};
+                        obj['questionText'] = _ques[_questionNum-1]['question'];
+                        obj['questionNum'] = _questionNum;
+                        obj['choice'] = $("input[name="+qname+"]:checked").val();
+                        _selected.push(obj);    
+                    }
+                    
                     console.log(_selected);
 
                     // change number's colour indicating answered
@@ -227,8 +258,8 @@
                 let val_ans;
                 let flg= false;
                 for(let q in _selected){
-                    if(_selected[q].hasOwnProperty(key)){
-                        val_ans = _selected[q][key];
+                    if(_selected[q]['questionNum'] === quesNum){
+                        val_ans = _selected[q]['choice'];
                         flg = true;
                     }
                 }
@@ -256,6 +287,22 @@
                 }
             }
             
+            //check for the last question for finish test button
+            function isLastQuestion(questionNumber){
+                if(questionNumber === _nofQuestions){
+                    $('.finish-test-div').show();
+                }
+                else {
+                    $('.finish-test-div').hide();
+                }
+            }
+
+
+            $('#submit-test-form').submit(function(e){
+                socket.emit('submit test', _ques.length, _selected,_testName, 'salmaanshaik72@gmail.com');
+                alert('Test Submitted Successfully');
+            });
+
         });// jquery ready function closing scope       
     </script>
 </body>

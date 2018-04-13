@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Profile</title>
   </head>
   <body>
@@ -22,35 +22,32 @@
                       <div class="about-pg">
                         <div class="slice-1">
                           <div class="about-text">
-                            <p class="font">I'm an enthusiast programmer and problem solver, proactive thinker. and i'm also a musician and painter.</p>
+                            <p class="font"><%=userDetails.about%></p>
                           </div>
                         </div>
                         <div class="slice-2">
                           <div class="personal-info">
                               <div>
-                                  <p class="font">Salmaan Ahmed</p>
+                                  <p class="font" style="display:flex; align-items:center;"><i class="material-icons" style="color:black;margin-right:10px;">account_box</i><%=userDetails.fullname%></p>
                                   <!--dynamic data here ************************* -->
                                 </div>
-                                <div>
-                                  <p class="font">salmaanshaik72@gmail.com</p>
+                                <div>  
+                                  <p class="font" style="display:flex; align-items:center;"><i class="material-icons" style="color:black;margin-right:10px;">contact_mail</i><%=userDetails.email%></p>
                                   <!--dynamic data here ************************* -->
                                 </div>
-                                <div>
-                                  <p class="font">9501903708</p>
+                                <div>                    
+                                  <p class="font" style="display:flex; align-items:center;"><i class="material-icons" style="color:black;margin-right:10px;">contact_phone</i><%=userDetails.phone%></p>
                                   <!--dynamic data here ************************* -->
                                 </div>
                           </div>
                             <div class="progress-custom">
                               <div>
-                                <p class="font">Tests taken : 9</p>
+                                <p class="font">Tests Taken : <%=userDetails.testsTaken%></p>
                                 <!--dynamic data here ************************* -->
                               </div>
+                              
                               <div>
-                                <p class="font">Percentage Growth : 59%</p>
-                                <!--dynamic data here ************************* -->
-                              </div>
-                              <div>
-                                <p class="font">Total Percentage : 80%</p>
+                                <p class="font">Average : <%=userDetails.average%></p>
                                 <!--dynamic data here ************************* -->
                               </div>
                             </div>

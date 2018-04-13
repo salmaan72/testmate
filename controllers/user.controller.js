@@ -6,17 +6,37 @@ const splitCookies = require('./../libs/splitCookies');
 const verifyToken = require('./../libs/verifyToken');
 const config = require('./../libs/config');
 const userModel = require('./../models/user.model');
+const resultModel = require('./../models/result.model');
 
 let userController = {};
 
 userController.signup = function(req,res){
+  // create result model in db
+  let newresult = new resultModel({
+    userEmail: req.body.email,
+    testsTaken: []
+  });
+  newresult.save();
+
   let newUser = new userModel({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password,
-    confirmPassword: req.body.confirmPassword
+    about: req.body.about,
+    education: {
+      high_school: {
+        school: req.body.highSchoolName,
+        from_year: req.body.highSchool_fromYear,
+        to_year: req.body.highSchool_toYear
+      },
+      highest_degree: {
+        school: req.body.highestDegreeName,
+        from_year: req.body.highestDegree_fromYear,
+        to_year: req.body.highestDegree_toYear
+      }
+    }
   });
   newUser.save().then(function(){
     res.redirect(307, '/signup-success');

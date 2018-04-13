@@ -38,7 +38,6 @@
     background: lightblue;
     box-shadow: 1px 1px 10px gray;
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
@@ -69,8 +68,10 @@
 
 /************    footer    ***************/
 .nxt-prev {
-    flex: 1;
+    flex: 4;
     display: flex;
+    align-items: center;
+    position:relative;
 }
 .last-div {
     flex: 1;
@@ -79,6 +80,12 @@
     margin:10px;
     padding-left:50px;
     padding-right:50px;
+    
+}
+.btns-together {
+    position:absolute;
+    left: 50%;
+    display: flex;
 }
 
 /************************** questions column  ****************************/
@@ -100,4 +107,11 @@
 .question-options {
     flex:4;
     background: lightcoral;
+}
+
+/******************  finish test div  ***************/
+.finish-test-div {
+    position: absolute;
+    right:20;
+    bottom:55px;
 }

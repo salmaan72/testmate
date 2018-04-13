@@ -15,7 +15,13 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <title>Dashboard</title>
-
+<style>
+.settings-a {
+  position: absolute;
+  right:0;
+  margin-right:35px;
+}
+</style>
 </head>
 
 <body>
@@ -24,9 +30,12 @@
   <nav class="navbar navbar-dark bg-dark nav-tweaks">
     <div class="container-fluid">
       <a class="navbar-brand font-brand" href="/">TestMate</a>
+      <p class="current-page-text"></p>
+      <a class="settings-a" href="/dashboard/settings"><i class="material-icons">settings</i></a>
       <form method="post" action="/logout">
         <button type="submit" class="nav-button-logout">Logout</button>
       </form>
+      
     </div>
   </nav>
   <div class="container-fluid outer-container">
@@ -35,7 +44,7 @@
         <p class="font" id="rm-margin">DASHBOARD</p>
       </div>
       <div class="side-nav-buttons">
-        <button type="button" class="side-nav-btn-style" id="profile" >PROFILE</button>
+        <button type="button" class="side-nav-btn-style" id="profile" autofocus>PROFILE</button>
         <button type="button" class="side-nav-btn-style" id="tests-taken">TESTS TAKEN</button>
         <button type="button" class="side-nav-btn-style" id="tests-available">TESTS AVAILABLE</button>
       </div>
@@ -62,27 +71,30 @@
 
   <script>
     $(document).ready(function () {
-      function welcomeEvent(){
-        $('#profile').trigger('click');
-      }
-
+      
+      $("#main-profile-id").load('/profile ' + '#profile-outer-container');
+      $('.current-page-text').text('PROFILE');
+      
       // profile button
       $('.side-nav-buttons').on('click', '#profile', function () {
-        console.log('clicked');
         $("#main-profile-id").load('/profile ' + '#profile-outer-container');
+        //set text on top
+        $('.current-page-text').text('PROFILE');
       });
       //tests taken button
       $('.side-nav-buttons').on('click', '#tests-taken', function () {
-        console.log('clicked');
         $("#main-profile-id").load('/tests-taken ' + '#tt-outer-container');
+        //set text on top
+        $('.current-page-text').text('TESTS TAKEN');
       });
       //tests available button
       $('.side-nav-buttons').on('click', '#tests-available', function () {
-        console.log('clicked');
         $("#main-profile-id").load('/tests-available ' + '#ta-outer-container');
+        //set text on top
+        $('.current-page-text').text('TESTS AVAILABLE');
       });
 
-
+     
     });
   </script>
 

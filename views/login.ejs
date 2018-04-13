@@ -8,19 +8,20 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="style.css" type="text/css">
-    <title>Login | Testmate</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title>Login | Testmate</title>
   </head>
   <body>
 		<div class="bg-fill back-gradient">
 			<div class="login-card">
-				<div class="login-title">Login</div>
+				<p class="login-title">LOGIN</p>
 				<div class="container" style="margin-top:30px">
 					<div class="row">
 						<div class="col-md-6">
-							<button class="btn btn-google" style="width:100%">google</button>
+							<button class="fa fa-google" style="width:100%"></button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-facebook" style="width:100%">facebook</button>
+							<button class="fa fa-facebook" style="width:100%"></button>
 						</div>
 					</div>
 				</div>
@@ -41,7 +42,7 @@
 				
 				<div class="container">
 					<form action="/login" method="post">
-						<input type="text" class="form-control mg-bottom" name="email" placeholder="Email" />
+							<input type="text" class="form-control mg-bottom" name="email" placeholder="Email" />
 						<input type="password" class="form-control mg-bottom-lastitem" name="password" placeholder="Password" />
 						<button type="submit" class="btn btn-primary" style="margin-top:20px">Login</button>
 					</form>
