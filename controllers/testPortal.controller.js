@@ -12,7 +12,8 @@ testPortal.startTest = function(req,res){
     verifyToken.verifyUserToken(token, res, function(authData){
         testModel.findOne({ title: req.body.testName }, function(err, foundTest){
             let nofQues = foundTest.questions.length;
-            res.render('testPortal', {testName: req.body.testName, numOfQues: nofQues});
+            let testDuration = foundTest['duration']
+            res.render('testPortal', {testName: req.body.testName, numOfQues: nofQues, userEmail: authData.user, duration:testDuration});
         });
     });
 }

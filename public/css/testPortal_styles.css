@@ -92,26 +92,57 @@
 .ques-col {
     padding: 10px;
     overflow: auto;
-    background: lightgray;
     display: flex;
     flex-direction: column;
 }
 .question-number {
     flex:0.5;
-    background: lightpink;
+    display: flex;
+    padding:5px 5px 5px 30px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px grey;
 }
 .question-text {
     flex: 2.5;
-    background: lightcyan; 
+    padding:10px 10px 10px 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px grey;
 }
 .question-options {
     flex:4;
-    background: lightcoral;
+    padding:10px 10px 10px 30px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px grey;
+    
 }
-
+.radio-div {
+    display: flex;
+    flex-direction: column;
+}
+.radio-div label {
+    font-size: 20px;
+    margin-left: 10px;
+}
+.radio-div button {
+    width:100px;
+}
+.mg-bottom {
+    margin-bottom:15px;
+}
 /******************  finish test div  ***************/
 .finish-test-div {
     position: absolute;
     right:20;
     bottom:55px;
+}
+
+/* time styles */
+.time {
+    background: white;
+    padding:6px 10px 6px 10px;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+
 }

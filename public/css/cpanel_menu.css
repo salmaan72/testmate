@@ -7,3 +7,11 @@
 .card-style {
     box-shadow: 2px 2px 20px grey;
 }
+
+.current-page-text {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-top:10px;
+  }

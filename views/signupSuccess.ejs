@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/fonts/fonts.css" type="text/css">
+    <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
      <title>singup successful</title>
     <style>
        
@@ -35,23 +36,23 @@
     </style>
   </head>
   <body class="container-fluid" style="padding:0px; margin:0px">
-    
-    
-        <nav class="navbar navbar-light bg-light static-top">
-            <div class="container">
-                <a class="navbar-brand" href="/">TestMate</a>
-                <a class="btn btn-primary" href="/login">Sign In</a>
-            </div>
-        </nav>
+        <nav class="navbar navbar-dark bg-dark nav-tweaks">
+                <div class="container-fluid">
+                    <a class="navbar-brand font-brand" href="/">TestMate</a>
+                    <form method="get" action="/login">
+                        <button type="submit" class="nav-button-logout">Login</button>
+                    </form>
+                </div>
+            </nav>
       <header class="masthead text-center">
         <div class="container">
             <div class="row">
                 <div class="col-xl-9 mx-auto" style="position: relative">
-                    <h1 class="font-concert">signup was successful <br/>Login to continue.</h1>
+                    <h1 style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">signup was successful <br/>Login to continue.</h1>
                 </div>
                 
             </div>
-            <a href="#" type="button" class="btn btn-lg btn-success" style="margin-top:80px">Login now</a>
+            <a href="/login" type="button" class="btn btn-lg btn-success" style="margin-top:80px">Login now</a>
         </div>    
     
       </header>

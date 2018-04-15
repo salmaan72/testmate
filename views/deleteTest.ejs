@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/deleteTest_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
+    <title>Tests Available</title>
+  </head>
+  <body>
+      <nav class="navbar navbar-dark bg-dark nav-tweaks">
+          <div class="container-fluid">
+            <a class="navbar-brand font-brand" href="/">TestMate</a>
+            <p class="current-page-text">ADMIN</p>
+            <form method="get" action="/admin/controlpanel">
+              <button type="submit" class="nav-button-logout">Home</button>
+            </form>
+          </div>
+        </nav>
+    <div class="ta-outer-container" id="ta-outer-container">
+      <div class="ta-inner-container">
+        <div class="ta-list-tests">
+          <ul class="list-group ul-list-2">
+            <% testsTitles.forEach(function(title){ %>
+              <li class="list-group-item li-list-2">
+                  <p class="font"><%= title.title %></p>
+                  <form action="/admin/delete-test" method="post">
+                  <button type="submit" class="btn btn-primary" id="get-test" name="testName" value="<%= title.title %>">Delete Test</button>
+                </form>
+              </li>
+            <% }); %>            
+                
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  </body>
+</html>

@@ -21,8 +21,9 @@
     <nav class="navbar navbar-dark bg-dark nav-tweaks">
         <div class="container-fluid">
             <a class="navbar-brand font-brand" href="/">TestMate</a>
-            <form method="post" action="/logout">
-                <button type="submit" class="nav-button-logout">Logout</button>
+            <p class="current-page-text">ADMIN</p>
+            <form method="get" action="/admin/controlpanel">
+                <button type="submit" class="nav-button-logout">Home</button>
             </form>
         </div>
     </nav>
@@ -37,6 +38,13 @@
                 <input id="num-ques-id" class="form-control num-ques" type="number" placeholder="Num. of Questions" />
 
                 <button id="button-test-id" class="bean-button button-test">Generate Questions</button>
+            </div>
+            <div class="test-duration">
+                <p class="duration-title">Test Duration</p>
+                <input type="number" id="test-duration-id" class="form-control" placeholder="minutes" style="width:80px" />
+                <div class="instr">
+                    <p>Input in minutes</p>
+                </div>
             </div>
             <div class="reset-button">
                 <button id="reset" class="bean-button-orange">Reset</button>
@@ -60,8 +68,8 @@
         </div>
 
     </div>
-   
-    
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -70,18 +78,18 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    
+
     <script>
         "use strict";
         $(document).ready(() => {
             var $titleQues = $('#title-test-id').val();
             var $numQues = $('#num-ques-id').val();
             var genQues = $('#button-test-id');
-            
+
             //content variable  ***************************************
-            var content = '<li id="this-list">'+'<div class=" container tmp">' +
+            var content = '<li id="this-list">' + '<div class=" container tmp">' +
                 '<div class="form-group">' +
-                '<label for="exampleFormControlTextarea1" id="save-status-id" class="save-status">Question:</label>' +
+                '<label for="exampleFormControlTextarea1" id="save-status-id">Question:</label>' +
                 '<textarea class="form-control" id="question-id" rows="3"></textarea>' +
                 '</div>' +
                 '<div class="custom-flex-tmp">' +
@@ -130,59 +138,66 @@
                 '<div class="col-md-6">' +
                 '<div class="row">' +
                 '<legend class="col-form-label col-sm-2 pt-0">Answer:</legend>' +
-                '<input id="ans-id" class="form-control ans" type="text" maxlength="1" placeholder="A/B/C/D" />'+
+                '<input id="ans-id" class="form-control ans" type="text" maxlength="1" placeholder="A/B/C/D" />' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-6 save-btn">' +
-                
-                '<button id="save" class="bean-button">save</button>' +
-                
+
+                '<button id="save" class="btn btn-primary">save</button>' +
+
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '</div>'+'</li>';
+                '</div>' + '</li>';
 
             //******************************************************************************
 
             // socket connection ############################
             const socket = io();
-                    
+
             // events
-            socket.on('save status change', function(){
-                $(this).parentsUntil('#this-list').find('#save-status-id').removeClass('save-status');
-                $(this).parentsUntil('#this-list').find('#save-status-id').addClass('save-status-saved');
+            socket.on('ques saved ack', function () {
+                alert('Question saved successfully');
                 
             });
 
             // ###############################################
-            
+
             // variables
             var testTitle;
 
             // onclicking generate questions button
             genQues.click(function () {
-                $('#notif-text-p').text($('#title-test-id').val());
-                testTitle = $('#title-test-id').val();
-                for (var i = 0; i < $('#num-ques-id').val(); i++) {
-                    $('.list-ques').append(content);
+                let a = $('#title-test-id').val();
+                let b = $('#num-ques-id').val();
+                let c = $('#test-duration-id').val();
+                if (a === '' || b === '' || c === '') {
+                    alert('fields empty. Try again!');
                 }
-                
-                // store title and no.of ques to db
-                socket.emit('create test', $('#title-test-id').val(), $('#num-ques-id').val());
+                else {
+                    $('#notif-text-p').text($('#title-test-id').val());
+                    testTitle = $('#title-test-id').val();
+                    for (var i = 0; i < $('#num-ques-id').val(); i++) {
+                        $('.list-ques').append(content);
+                    }
+                    // store title and no.of ques to db
+                    socket.emit('create test', $('#title-test-id').val(), $('#num-ques-id').val(), $('#test-duration-id').val());
 
-                //clear fields
-                $('#title-test-id').val('');
-                $('#num-ques-id').val('');
+                    //clear fields
+                    $('#title-test-id').val('');
+                    $('#num-ques-id').val('');
+                    $('#test-duration-id').val('');
+                }
             });
-            
+
             // reset the title heading
-            $('#reset').click(function(){
+            $('#reset').click(function () {
                 $('.list-ques').empty();
                 $('#notif-text-p').text('No Questions Generated');
             });
-            
+
             // on clicking save button
-            $(".list-ques").on('click', '#save', function(){
+            $(".list-ques").on('click', '#save', function () {
                 const question = {
                     question: $(this).parentsUntil('#this-list').find('#question-id').val(),
                     option_a: $(this).parentsUntil('#this-list').find('#option-a-id').val(),
@@ -191,11 +206,12 @@
                     option_d: $(this).parentsUntil('#this-list').find('#option-d-id').val(),
                     answer: $(this).parentsUntil('#this-list').find('#ans-id').val()
                 };
-                
+                $(self).prop("disabled", true);
                 socket.emit('save question', question, testTitle);
+
             });
 
-    
+
         });// main scope closing tag
     </script>
 </body>

@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <link rel="stylesheet" href="/css/adminLogin_styles.css" type="text/css">
-    <title>Login</title>
+    <title>Admin | Login</title>
 </head>
 <body>
     <div class="container">
         <div class="login-card">
-            <p class="title">Login</p>
-        <form action="/login" method="post">
-            <input class="form-control mg-bottom" name="email" type="email" placeholder="Email"/>
-            <input class="form-control mg-bottom" name="password" type="password" placeholder="Password"/>
+            <p class="title">Admin  Login</p>
+        <form action="/admin/login" method="post">
+            <input class="form-control mg-bottom" name="adminId" type="email" placeholder="Admin ID"/>
+            <input class="form-control mg-bottom" name="key" maxlength="11" type="text" placeholder="xxx-xxx-xxx"/>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
         </div>

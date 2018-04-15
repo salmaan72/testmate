@@ -19,6 +19,8 @@ const eventEmitter = new events.EventEmitter();
 let testModel = require('./models/test.model');
 let userModel = require('./models/user.model');
 let resultModel = require('./models/result.model');
+let adminModel = require('./models/admin.model');
+let config = require('./libs/config');
 
 mongoose.connect('mongodb://localhost/testmate', function () {
   console.log('mongodb connected on default port');
@@ -38,15 +40,18 @@ http.listen(3000, function () {
   console.log('server listening on port 3000');
 });
 
+
 // socket events
 io.sockets.on('connection', function (socket) {
   socket.on('save question', function (question, testTitle) {
     eventEmitter.emit('save question db', question, testTitle);
   });
+  eventEmitter.on('ack 1', function(){
+    socket.emit('ques saved ack');
+  })
 
-  socket.on('create test', function (title, numques) {
-    eventEmitter.emit('create test db', title, numques);
-    socket.emit('save status change');
+  socket.on('create test', function (title, numques, duration) {
+    eventEmitter.emit('create test db', title, numques, duration);
   });
 
   //test portal sockets
@@ -72,6 +77,7 @@ io.sockets.on('connection', function (socket) {
 
   //submitting test
   socket.on('submit test', function (totalQues, all_answers, testName, email) {
+    console.log('subm time');
     eventEmitter.emit('submit test db', totalQues, all_answers, testName, email);
     console.log('test submitted');
   });
@@ -79,8 +85,21 @@ io.sockets.on('connection', function (socket) {
   //create test field
   socket.on('create test field', function (testName, email) {
     eventEmitter.emit('create test field db', testName, email);
-  })
+  });
 
+  //user settings events
+  socket.on('save personal info', function(editedInfo, email){
+    eventEmitter.emit('save personal info db', editedInfo, email);
+    
+  });
+  //check password
+  socket.on('check password', function(passInfo, email){
+    eventEmitter.emit('check password db', passInfo, email);
+  });
+  eventEmitter.on('ack 2', function(status){
+    socket.emit('pass ack', status);
+  });
+  
 });// connection event closing scope 
 
 /**********************************************************************************************/
@@ -91,16 +110,19 @@ eventEmitter.on('save question db', function (quesObj, testTitle) {
   testModel.findOne({ 'title': testTitle }, function (err, foundQues) {
     foundQues.questions.push(quesObj);
     foundQues.save();
+    eventEmitter.emit('ack 1');
   });
 });
 
-eventEmitter.on('create test db', function (title, numques) {
+eventEmitter.on('create test db', function (title, numques, duration) {
   let newTest = new testModel({
     title: title,
     numberOfQuestions: numques,
+    duration: Number(duration),
     questions: []
   });
   newTest.save();
+
 });
 
 // create test in db
@@ -114,6 +136,9 @@ eventEmitter.on('create test field db', function (testName, email) {
     found.testsTaken.push({
       testName: testName.trim(),
       questions: [],
+      totalQuestionsAttempted: 0,
+      score: 0,
+      percentage: '0%'
     });
     found.save();
   })
@@ -173,7 +198,6 @@ let hflag = false;
 
 eventEmitter.on('part 2', function(email, testName, totalQues){
   resultModel.findOne({ 'userEmail': email }, function (err, foundres) {
-    console.log('hahahaaaaaaaaaaaaaaaaaa finally ');
     let correctQues = 0;
     let wrongQues = 0;
     let totalQuesAttempted;
@@ -194,16 +218,58 @@ eventEmitter.on('part 2', function(email, testName, totalQues){
         console.log('correct', correctQues);
         console.log('wrong', wrongQues);
         foundres.testsTaken[j]['score'] = ((4 * correctQues) - (wrongQues + questionsLeft));
-        let percentage = (correctQues / totalQues) * 100;
-        foundres.testsTaken[j]['percentage'] = percentage + '%';
+        let percentage;
+        if(totalQues !== 0){
+          percentage = (correctQues / totalQues) * 100;
+        }else{
+          percentage=0;
+        }
+        foundres.testsTaken[j]['percentage'] = percentage+'%';
 
       }
     }
 
     foundres.save().then().catch(function (err) {
       console.log('err while saving', err);
-    })
+    });
 
   });
 });
 
+// save edited personal info in db
+eventEmitter.on('save personal info db', function(editedInfo, email){
+  userModel.findOne({'email': email}, function(err, found){
+    if(editedInfo['firstname'] !== found['firstname']){
+      found['firstname'] = editedInfo['firstname'];
+    }
+    if(editedInfo['lastname'] !== found['lastname']){
+      found['lastname'] = editedInfo['lastname'];
+    }
+    if(editedInfo['email'] !== found['email']){
+      found['email'] = editedInfo['email'];
+    }
+    if(editedInfo['phone'] !== found['phone']){
+      found['phone'] = editedInfo['phone'];
+    }
+    if(editedInfo['about'] !== found['about']){
+      found['about'] = editedInfo['about'];
+    }
+    found.save().then().catch(function (err) {
+      console.log('err while saving', err);
+    });
+  });
+});
+
+//check for password in db
+eventEmitter.on('check password db', function(passInfo, email){
+  userModel.findOne({'email':email}, function(err, found){
+    if(found.password === passInfo['currentpass']){
+      found.password = passInfo['newpass'];
+      found.save();
+      eventEmitter.emit('ack 2', true);
+    }
+    else {
+      eventEmitter.emit('ack 2', false);
+    }
+  });
+}); 

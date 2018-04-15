@@ -24,4 +24,22 @@ verifyToken.verifyUserToken = function(token,res,callback){
   }
 }
 
+verifyToken.verifyAdminToken = function(token, res, callback){
+  if(token !== undefined && token !== null){
+    //let token = cookie.split('=');
+    let data = jwt.verify(token, config.secret2, function(err,authData){
+      if(err){
+        res.sendStatus(403);
+      }
+      else{
+        return authData;
+      }
+    });
+    callback(data);
+  }
+  else{
+    throw Error('Access denied. Please login to continue');
+  }
+}
+
 module.exports = verifyToken;

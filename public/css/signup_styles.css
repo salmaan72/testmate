@@ -1,0 +1,18 @@
+.login-card {
+  width:500px;
+  height:680px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 15px grey;
+  margin:100px auto;
+  padding:30px;
+}
+.title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin:30px auto;
+}
+.mg-bottom {
+  margin-bottom: 20px;
+}

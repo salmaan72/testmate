@@ -1,3 +1,10 @@
+.current-page-text {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-top:10px;
+  }
 .cpanel-create-test {
     background: #1E79A0;
     height:300px;
@@ -19,9 +26,29 @@
     height: inherit;
 }
 .set-values {
-    flex:2;
-    
+    flex:2; 
     padding:15px 40px;
+}
+.test-duration {
+    flex:0.8;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+.duration-title {
+    color: white;
+    font-weight: bold;
+    margin-top:30px;
+}
+.instr {
+    margin-top:25px;
+}
+.instr p {
+    margin: 0 auto;
+    color: white;
+    font-size: 15px;
 }
 .reset-button {
     flex:1;

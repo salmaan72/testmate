@@ -7,16 +7,149 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/css/navbar_styles.css" type="text/css">
+    <link rel="stylesheet" href="/css/userSettings_styles.css" type="text/css">
+    <script src="/socket.io/socket.io.js"></script>
     <title>Settings</title>
+    <script>
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-id')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
   </head>
   <body>
-    
+    <!-- Navigation -->
+  <nav class="navbar navbar-dark bg-dark nav-tweaks">
+    <div class="container-fluid">
+      <a class="navbar-brand font-brand" href="/">TestMate</a>
+      <p class="current-page-text">SETTINGS</p>
+      <form method="get" action="/dashboard">
+        <button type="submit" class="nav-button-logout">HOME</button>
+      </form>
+    </div>
+  </nav>
 
-    <!-- Optional JavaScript -->
+  <div class="outer-container">     
+    
+    <div class="slice-1">
+      <div class="div-heading-1"></div>
+      <div class="inner-container">
+        <div class="firstname mg-bottom">
+          <input type="text" id="firstname-id" class="form-control" value="<%=userData.firstname%>"/>
+        </div>
+        <div class="lastname mg-bottom"> 
+          <input type="text" id="lastname-id" class="form-control" value="<%=userData.lastname%>"/>
+        </div>
+        <div class="email mg-bottom"> 
+            <input type="text" id="email-id" class="form-control" value="<%=userData.email%>"/>
+        </div>
+        <div class="phone mg-bottom"> 
+            <input type="text" id="phone-id" class="form-control" value="<%=userData.phone%>"/>
+        </div>
+        <div class="about mg-bottom">
+            <textarea class="form-control" id="about-id" rows="3" cols="50" placeholder="<%=userData.about%>" maxlength="160"></textarea>
+        </div>
+        <div class="save-btn" >
+            <button type="button" class="btn btn-primary" id="slice-1-save">save</button>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="slice-2" id="slice-2-save">
+        <div class="div-heading-2"></div>
+        <div class="inner-container">
+          <div class="current-pass mg-bottom">
+            <input type="password" class="form-control" id="currentpass" placeholder="Current Password"/>
+          </div>
+          <div class="new-pass mg-bottom"> 
+            <input type="password" class="form-control" id="newpass" placeholder="New Password"/>
+          </div>
+          <div class="new-pass-confirm mg-bottom"> 
+            <input type="password" class="form-control" id="confirm-newpass" placeholder="Confirm New Password"/>
+          </div>
+          <div class="save-btn">
+              <button type="button" class="btn btn-primary" id="slice-2-save">save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="slice-3">
+          <div class="div-heading-3"></div>
+          <div class="inner-container">
+              <img class="pimg" id="img-id"/>
+              <form action="#">
+                <input class="btn btn-light" type="file" name="profile-pic" accept="image/*" onchange="readURL(this);"/>
+                <input type="submit" class="btn btn-primary" value="save"/>
+              </form>
+            
+          </div>
+        </div>
+  </div>
+    
+       <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function(){
+
+        let _email = '<%=userData.email%>';
+        
+        //establish socket connection
+        const socket = io();
+        //events
+        socket.on('saved', function(){
+          alert('Saved Successfully');
+        });
+        socket.on('pass ack', function(status){
+          if(status){
+            alert('password saved successfully');
+            $('#currentpass').val('');
+            $('#newpass').val('');
+            $('#confirm-newpass').val('');
+          }
+          else {
+            alert('wrong current password. Try again !');
+            $('#currentpass').val('');
+            $('#newpass').val('');
+            $('#confirm-newpass').val('');
+          }
+        });
+
+        $('#slice-1-save').click(function(){
+          let editedInfo = {};
+          editedInfo['firstname'] = $('#firstname-id').val();
+          editedInfo['lastname'] = $('#lastname-id').val();
+          editedInfo['email'] = $('#email-id').val();
+          editedInfo['phone'] = $('#phone-id').val();
+          editedInfo['about'] = $('#about-id').val();
+          socket.emit('save personal info', editedInfo, _email);
+        });
+
+        $('.inner-container').on('click', '#slice-2-save', function(){
+          const passInfo = {};
+          passInfo['currentpass'] = $('#currentpass').val();
+          passInfo['newpass'] = $('#newpass').val();
+          passInfo['confirmpass'] = $('#confirm-newpass').val();
+          if(passInfo['newpass'] !== passInfo['confirmpass']){
+            alert('Confirm Password Again');
+          }else {
+            socket.emit('check password', passInfo, _email);
+          }
+        });
+      });
+        
+    </script>
   </body>
 </html>

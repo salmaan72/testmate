@@ -1,0 +1,47 @@
+.ta-outer-container {
+    padding: 30px;
+    width:60%;
+    margin:0 auto;
+  }
+  .ta-inner-container::before {
+    content:'Delete Tests';
+    background: tomato;
+    font-size: 12px;
+    display: block;
+    color: white;
+    padding:4px 10px;
+    text-align: center;
+    font-weight:700;
+    width: fit-content;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .ta-list-tests {
+    background: lightgray;
+    padding:15px;
+    
+  }
+  .ul-list-2 {
+    display: flex;
+    flex-direction: column;
+  }
+  .ul-list-2 li {
+    margin-bottom: 10px;
+  }
+  
+  .li-list-2 {
+    display: flex;
+  }
+  .li-list-2 p {
+    flex: 6;
+  }
+  .li-list-2 button {
+    flex: 1;
+  }
+  .current-page-text {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-top:10px;
+  }

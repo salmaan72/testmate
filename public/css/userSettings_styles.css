@@ -1,0 +1,200 @@
+.current-page-text {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-top:10px;
+  }
+.outer-container {
+    display: flex;
+    flex-direction: column;
+    width:500px;
+    margin:0 auto;
+}
+.mg-bottom {
+    margin-bottom: 18px;
+}
+.save-btn {
+    margin-bottom: 40px;
+}
+
+/******************************  slice 1   *************************************/
+.div-heading-1 {
+    margin-top: 20px;
+    height:2px;
+    background: tomato;
+}
+.div-heading-1::before {
+    content:'Edit Personal Info';
+    background: tomato;
+    font-size: 15px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 180px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.inner-container {
+    margin-top: 50px;
+    padding-right: 80px;
+}
+
+.firstname::before {
+    content:'Firstname';
+    background: green;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 80px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.lastname::before {
+    content:'Lastname';
+    background: green;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 80px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.email::before {
+    content:'Email';
+    background: green;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 80px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.phone::before {
+    content:'Phone';
+    background: green;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 80px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.about::before {
+    content:'About';
+    background: green;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 80px;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+/******************************  slice 2   *************************************/
+.div-heading-2 {
+    margin-top: 20px;
+    height:2px;
+    background: tomato;
+}
+.div-heading-2::before {
+    content:'Change Password';
+    background: tomato;
+    font-size: 15px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 180px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+.current-pass::before {
+    content:'Current Password';
+    background: skyblue;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px 8px 4px 8px;
+    text-align: center;
+    font-weight:700;
+    width: fit-content;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.new-pass::before {
+    content:'New Password';
+    background: skyblue;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px 8px 4px 8px;
+    text-align: center;
+    font-weight:700;
+    width: fit-content;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+.new-pass-confirm::before {
+    content:'Confirm New Password';
+    background: skyblue;
+    font-size: 10px;
+    display: block;
+    color: white;
+    padding:4px 8px 4px 8px;
+    text-align: center;
+    font-weight:700;
+    width: fit-content;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+/******************************* slice 3 ***********************************/
+.div-heading-3 {
+    margin-top: 20px;
+    height:2px;
+    background: tomato;
+}
+.div-heading-3::before {
+    content:'Profile Picture';
+    background: tomato;
+    font-size: 15px;
+    display: block;
+    color: white;
+    padding:4px;
+    text-align: center;
+    font-weight:700;
+    width: 180px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.pimg {
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    margin:10px 10px 30px 10px;
+    transform: translateX(40%);
+    border:15px solid lightgray;
+}
+.slice-3 {
+    margin-bottom:100px;
+}

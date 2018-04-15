@@ -56,7 +56,7 @@ dashboardController.takenTests = function(req, res){
                 subObj['testName'] = found.testsTaken[i]['testName'];
                 subObj['totalQuestionsAttempted'] = found.testsTaken[i]['totalQuestionsAttempted'];
                 subObj['score'] = found.testsTaken[i]['score'];
-                subObj['percentage'] = found.testsTaken[i]['percentage'];
+                subObj['percentage'] = String(found.testsTaken[i]['percentage']);
                 resultArr.push(subObj);
                 subObj = {};
             }

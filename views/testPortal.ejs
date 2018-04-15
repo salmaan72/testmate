@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/testPortal_styles.css" type="text/css">
     <script src="/socket.io/socket.io.js"></script>
     <title>Test Portal</title>
+
 </head>
 
 <body>
@@ -21,8 +22,10 @@
             <div class="test-name">
                 <%= testName %>
             </div>
+            <div id="hms" class="time"></div>
+
             <div class="exit-test-btn">
-                <button class="btn btn-primary">Exit Test</button>
+                <a href="/dashboard" class="btn btn-primary">Exit Test</a>
             </div>
 
         </div>
@@ -47,35 +50,36 @@
                 </ul>
             </div>
             <div class="ques-col">
-                <div class="question-number">
-                    <label>Question: <p id="question-number-label"></p></label>
+                <div class="question-number mg-bottom">
+                    <p>Question: </p>
+                    <p id="question-number-label"></p>     
                 </div>
-                <div class="question-text" id="question-text-id">
+                <div class="question-text mg-bottom" id="question-text-id">
 
                 </div>
-                <div class="question-options" id="question-options-id">
-                    
+                <div class="question-options mg-bottom" id="question-options-id">
+
                 </div>
             </div>
         </div>
         <div class="footer">
             <div class="nxt-prev">
                 <div class="btns-together">
-                <div>
-                    <button class="btn btn-primary" id="prev-id">prev</button>
+                    <div>
+                        <button class="btn btn-primary" id="prev-id">prev</button>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary" id="next-id">next</button>
+                    </div>
                 </div>
 
-                <div>
-                    <button class="btn btn-primary" id="next-id">next</button>
-                </div>
-                </div>
-                
             </div>
             <div class="last-div">
                 <form action="/dashboard" method="get" id="submit-test-form">
-                <div class="finish-test-div">
-                    <button type="submit" class="btn btn-primary" id="finish-test-id">Finish Test</button>
-                </div>
+                    <div class="finish-test-div">
+                        <button type="submit" class="btn btn-primary" id="finish-test-id">Finish Test</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -89,32 +93,65 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
+   
     <script>
         "use strict"
-        $(document).ready(function(){
+        $(document).ready(function () {
             let _ques;
             let _nofQuestions;
             let _selected = [];
             let _questionNum;
             let _testName;
-            
+            let _email = '<%=userEmail%>'
+            let _duration = '<%=duration%>'
+
             // hide submit test button
             $('.finish-test-div').hide();
 
-            let content = '<div id="radio-div-id" class="radio-div">'+ 
-                        
-                          '<input type="radio" id="choice1" name="opt-question" value="a">'+
-                          '<label for="choice1" id="c1"></label>'+
-                          '<input type="radio" id="choice2" name="opt-question" value="b">'+
-                          '<label for="choice2" id="c2"></label>'+
-                          '<input type="radio" id="choice3" name="opt-question" value="c">'+
-                          '<label for="choice3" id="c3"></label>'+
-                          '<input type="radio" id="choice4" name="opt-question" value="d">'+
-                          '<label for="choice4" id="c4"></label>'+
+            //time
+            function calcTime() {
+                let hrs = 0, mins = 0;
+                let rem = _duration;
+                while (1) {
+                    if (rem > 60) {
+                        hrs++;
+                        rem -= 60;
+                    }
+                    else {
+                        mins = rem;
+                        break;
+                    }
+                }
+                let obj = {};
+                obj['hrs'] = hrs;
+                obj['mins'] = mins;
+                return obj;
+            }
+            let timeObj = calcTime();
             
-                          '<button class="btn btn-primary" type="submit" id="confirm-btn">confirm</button>'+   
-                          '</div>';
-            
+            $('#hms').text(timeObj.hrs+':'+timeObj.mins+':'+'00');
+
+            let content = '<div id="radio-div-id" class="radio-div">' +
+                '<div>'+
+                '<input type="radio" id="choice1" name="opt-question" value="a">' +
+                '<label for="choice1" id="c1"></label>' +
+                '</div>'+
+                '<div>'+
+                '<input type="radio" id="choice2" name="opt-question" value="b">' +
+                '<label for="choice2" id="c2"></label>' +
+                '</div>'+
+                '<div>'+
+                '<input type="radio" id="choice3" name="opt-question" value="c">' +
+                '<label for="choice3" id="c3"></label>' +
+                '</div>'+
+                '<div>'+
+                '<input type="radio" id="choice4" name="opt-question" value="d">' +
+                '<label for="choice4" id="c4"></label>' +
+                '</div>'+
+
+                '<button class="btn btn-primary" type="submit" id="confirm-btn">confirm</button>' +
+                '</div>';
+
             // hiding div containing all the question's options
             //$('#hidden-div-id').hide();
             // socket connection
@@ -123,12 +160,12 @@
             socket.emit('get question', $('.test-name').text());
 
             // socket events
-            socket.on('returned questions', function(ques, testName){
+            socket.on('returned questions', function (ques, testName) {
                 _ques = ques;
                 _nofQuestions = ques.length;
                 _testName = testName;
 
-                socket.emit('create test field', testName, 'salmaanshaik72@gmail.com');                
+                socket.emit('create test field', testName, _email);
 
                 $('#question-number-label').text('1');
                 $('#question-text-id').text(_ques[0]['question']);
@@ -139,19 +176,21 @@
                 $("label[for='choice1']").text(_ques[0]['option_a']);
                 $("label[for='choice2']").text(_ques[0]['option_b']);
                 $("label[for='choice3']").text(_ques[0]['option_c']);
-                $("label[for='choice4']").text(_ques[0]['option_d']); 
-                
+                $("label[for='choice4']").text(_ques[0]['option_d']);
+
                 //check for first and last questions 
                 disable_prev();
                 disable_next();
             });
-
+            
+            //check 
+            isLastQuestion(_questionNum);
             // button click events
-            $('#next-id').click(function(){
+            $('#next-id').click(function () {
                 let quesNum = Number($('#question-number-label').text());
                 quesNum++;
                 $('#question-number-label').text(String(quesNum));
-                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                $('#question-text-id').text(_ques[quesNum - 1]['question']);
                 _questionNum = quesNum;
                 isLastQuestion(quesNum);
                 //clear checked button
@@ -159,24 +198,24 @@
                 //setting radio buttons
                 $('#question-options-id').empty();
                 $('#question-options-id').append(content);
-                $("input[name='opt-question']").attr('name', 'opt-question-'+quesNum);
+                $("input[name='opt-question']").attr('name', 'opt-question-' + quesNum);
                 //check for already checked questions
-                recheck_radio(quesNum); 
+                recheck_radio(quesNum);
 
-                $("label[for='choice1']").text(_ques[quesNum-1]['option_a']);
-                $("label[for='choice2']").text(_ques[quesNum-1]['option_b']);
-                $("label[for='choice3']").text(_ques[quesNum-1]['option_c']);
-                $("label[for='choice4']").text(_ques[quesNum-1]['option_d']);
-                
+                $("label[for='choice1']").text(_ques[quesNum - 1]['option_a']);
+                $("label[for='choice2']").text(_ques[quesNum - 1]['option_b']);
+                $("label[for='choice3']").text(_ques[quesNum - 1]['option_c']);
+                $("label[for='choice4']").text(_ques[quesNum - 1]['option_d']);
+
                 //check for first and last questions
                 disable_next();
                 disable_prev();
             });
-            $('#prev-id').click(function(){
+            $('#prev-id').click(function () {
                 let quesNum = Number($('#question-number-label').text());
                 quesNum--;
                 $('#question-number-label').text(String(quesNum));
-                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                $('#question-text-id').text(_ques[quesNum - 1]['question']);
                 _questionNum = quesNum;
                 isLastQuestion(quesNum);
                 //clear checked button
@@ -184,26 +223,26 @@
                 //setting radio buttons
                 $('#question-options-id').empty();
                 $('#question-options-id').append(content);
-                $("input[name='opt-question']").attr('name', 'opt-question-'+quesNum);
+                $("input[name='opt-question']").attr('name', 'opt-question-' + quesNum);
                 //check for already checked questions
                 recheck_radio(quesNum);
 
-                $("label[for='choice1']").text(_ques[quesNum-1]['option_a']);
-                $("label[for='choice2']").text(_ques[quesNum-1]['option_b']);
-                $("label[for='choice3']").text(_ques[quesNum-1]['option_c']);
-                $("label[for='choice4']").text(_ques[quesNum-1]['option_d']);
-                
+                $("label[for='choice1']").text(_ques[quesNum - 1]['option_a']);
+                $("label[for='choice2']").text(_ques[quesNum - 1]['option_b']);
+                $("label[for='choice3']").text(_ques[quesNum - 1]['option_c']);
+                $("label[for='choice4']").text(_ques[quesNum - 1]['option_d']);
+
                 //check for first and last questions
                 disable_prev();
                 disable_next();
 
             });
-            
-            $('.ul-ques-num').on('click', '#round-btn-id', function(){
+
+            $('.ul-ques-num').on('click', '#round-btn-id', function () {
                 let quesNum = Number($(this).val());
                 //console.log(quesNum);
                 $('#question-number-label').text(String(quesNum));
-                $('#question-text-id').text(_ques[quesNum-1]['question']);
+                $('#question-text-id').text(_ques[quesNum - 1]['question']);
                 _questionNum = quesNum;
                 isLastQuestion(quesNum);
                 //clear checked button
@@ -211,85 +250,85 @@
                 //setting radio buttons
                 $('#question-options-id').empty();
                 $('#question-options-id').append(content);
-                $("input[name='opt-question']").attr('name', 'opt-question-'+quesNum);
+                $("input[name='opt-question']").attr('name', 'opt-question-' + quesNum);
                 //check for already checked questions
                 recheck_radio(quesNum);
 
-                $("label[for='choice1']").text(_ques[quesNum-1]['option_a']);
-                $("label[for='choice2']").text(_ques[quesNum-1]['option_b']);
-                $("label[for='choice3']").text(_ques[quesNum-1]['option_c']);
-                $("label[for='choice4']").text(_ques[quesNum-1]['option_d']);
-                
+                $("label[for='choice1']").text(_ques[quesNum - 1]['option_a']);
+                $("label[for='choice2']").text(_ques[quesNum - 1]['option_b']);
+                $("label[for='choice3']").text(_ques[quesNum - 1]['option_c']);
+                $("label[for='choice4']").text(_ques[quesNum - 1]['option_d']);
+
                 //check for first and last questions
                 disable_prev();
                 disable_next();
             });
-            
-            // on clicking confirm button to save checked answer  
-                $('#question-options-id').on('click', '#confirm-btn', function(){
-                    //save checked question's answer to an array
-                    let qname = 'opt-question-'+_questionNum;
-                    let flag = true;
-                   
-                    for(let p in _selected){
-                        if(_selected[p]['questionNum'] === _questionNum){
-                            _selected[p]['choice'] = $("input[name="+qname+"]:checked").val(); 
-                            flag = false;
-                        }
-                    }
-                    if(flag){
-                        let obj = {};
-                        obj['questionText'] = _ques[_questionNum-1]['question'];
-                        obj['questionNum'] = _questionNum;
-                        obj['choice'] = $("input[name="+qname+"]:checked").val();
-                        _selected.push(obj);    
-                    }
-                    
-                    console.log(_selected);
 
-                    // change number's colour indicating answered
-                    let qnum_b = ''+_questionNum;
-                    $("button[value="+qnum_b+"]").attr('style','background:green');
-                });
-                
+            // on clicking confirm button to save checked answer  
+            $('#question-options-id').on('click', '#confirm-btn', function () {
+                //save checked question's answer to an array
+                let qname = 'opt-question-' + _questionNum;
+                let flag = true;
+
+                for (let p in _selected) {
+                    if (_selected[p]['questionNum'] === _questionNum) {
+                        _selected[p]['choice'] = $("input[name=" + qname + "]:checked").val();
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    let obj = {};
+                    obj['questionText'] = _ques[_questionNum - 1]['question'];
+                    obj['questionNum'] = _questionNum;
+                    obj['choice'] = $("input[name=" + qname + "]:checked").val();
+                    _selected.push(obj);
+                }
+
+                // change number's colour indicating answered
+                let qnum_b = '' + _questionNum;
+                $("button[value=" + qnum_b + "]").attr('style', 'background:green');
+            });
+
             //recheck radio
-            function recheck_radio(quesNum){
-                let key = 'opt-question-'+quesNum;
+            function recheck_radio(quesNum) {
+                let key = 'opt-question-' + quesNum;
                 let val_ans;
-                let flg= false;
-                for(let q in _selected){
-                    if(_selected[q]['questionNum'] === quesNum){
+                let flg = false;
+                for (let q in _selected) {
+                    if (_selected[q]['questionNum'] === quesNum) {
                         val_ans = _selected[q]['choice'];
                         flg = true;
                     }
                 }
-                if(flg){
-                    $("input[name="+key+"][value="+val_ans+"]").prop('checked', true); 
+                if (flg) {
+                    $("input[name=" + key + "][value=" + val_ans + "]").prop('checked', true);
                 }
             }
 
 
             //check for first or last question to eliminate prev and next buttons accordingly
-            function disable_prev(){
-                if(Number($('#question-number-label').text()) === 1){
+            function disable_prev() {
+                if (Number($('#question-number-label').text()) === 1) {
                     $('#prev-id').hide();
                 }
-                else if(Number($('#question-number-label').text()) !== 1){
+                else if (Number($('#question-number-label').text()) !== 1) {
                     $('#prev-id').show();
                 }
             }
-            function disable_next(){
-                if(Number($('#question-number-label').text()) === _nofQuestions){
+            function disable_next() {
+                if (Number($('#question-number-label').text()) === _nofQuestions) {
                     $('#next-id').hide();
                 }
-                else if(Number($('#question-number-label').text()) !== _nofQuestions){
+                else if (Number($('#question-number-label').text()) !== _nofQuestions) {
                     $('#next-id').show();
                 }
             }
-            
+
             //check for the last question for finish test button
-            function isLastQuestion(questionNumber){
-                if(questionNumber === _nofQuestions){
+            function isLastQuestion(questionNumber) {
+                console.log(questionNumber);
+                console.log(_nofQuestions);
+                if (questionNumber === _nofQuestions) {
                     $('.finish-test-div').show();
                 }
                 else {
@@ -298,10 +337,36 @@
             }
 
 
-            $('#submit-test-form').submit(function(e){
-                socket.emit('submit test', _ques.length, _selected,_testName, 'salmaanshaik72@gmail.com');
+            $('#submit-test-form').submit(function (e) {
+                socket.emit('submit test', _ques.length, _selected, _testName, _email);
                 alert('Test Submitted Successfully');
             });
+
+            // time
+            var timeoutHandle;
+        function count() {
+
+            var startTime = document.getElementById('hms').innerHTML;
+            var pieces = startTime.split(":");
+            var time = new Date();
+            time.setHours(pieces[0]);
+            time.setMinutes(pieces[1]);
+            time.setSeconds(pieces[2]);
+            var timedif = new Date(time.valueOf() - 1000);
+            var newtime = timedif.toTimeString().split(" ")[0];
+            document.getElementById('hms').innerHTML = newtime;
+            if(newtime === '00:00:00'){
+                alert('Timeout ! submitting test...');
+                
+                socket.emit('submit test', _ques.length, _selected, _testName, _email);
+                alert('Test Submitted Successfully');
+                window.location.href = '/dashboard';
+           
+            }
+            timeoutHandle = setTimeout(count, 1000);
+        }
+        count();
+
 
         });// jquery ready function closing scope       
     </script>

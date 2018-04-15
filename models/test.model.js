@@ -17,6 +17,7 @@ const testSchema = new Schema({
         unique: true
     },
     numberOfQuestions: Number,
+    duration: Number,
     questions: [questionSchema]
 });
 
