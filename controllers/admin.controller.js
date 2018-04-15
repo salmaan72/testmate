@@ -42,24 +42,5 @@ adminController.deleteTest = function(req, res){
   });
 }
 
-adminController.usersInfo = function(req, res){
-  let token = splitCookies.cookieSplit(req.headers.cookie).adminToken;
-  verifyToken.verifyAdminToken(token,res,function(authData){
-    let query = testModel.find({}).select('email');
-        query.exec(function(err, data){
-            if(err){
-                return err;
-            }
-            let count = data.length;
-            for(let i in data){
-              resultModel.findOne({'userEmail': data[i]}, function(err, found){
-                
-              });
-            }
-
-            res.render('deleteTest', { testsTitles:data, numOfUsers: count });
-        });
-  });
-}
 
 module.exports = adminController;

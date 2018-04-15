@@ -106,6 +106,5 @@ routes.route('/admin/delete-test').get(function(req,res){
   });
 }).post(adminController.deleteTest);
 
-routes.get('/admin/users-info', adminController.usersInfo);
 
 module.exports = routes;

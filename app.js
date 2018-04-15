@@ -210,13 +210,13 @@ eventEmitter.on('part 2', function(email, testName, totalQues){
 
         for (let u in foundres.testsTaken[j]['questions']) {
           if (foundres.testsTaken[j]['questions'][u]['isCorrect'] === true) {
-            console.log(foundres.testsTaken[j]['questions'][u]['isCorrect']);
+            //console.log(foundres.testsTaken[j]['questions'][u]['isCorrect']);
             correctQues++;
           }
         }
         wrongQues = totalQues-correctQues;
-        console.log('correct', correctQues);
-        console.log('wrong', wrongQues);
+        //console.log('correct', correctQues);
+        //console.log('wrong', wrongQues);
         foundres.testsTaken[j]['score'] = ((4 * correctQues) - (wrongQues + questionsLeft));
         let percentage;
         if(totalQues !== 0){
