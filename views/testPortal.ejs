@@ -18,7 +18,7 @@
 <body>
     <div class="outer-container">
         <div class="header">
-            <div class="uname">salmaan</div>
+            <div class="uname"><%=userEmail%></div>
             <div class="test-name">
                 <%= testName %>
             </div>
@@ -33,8 +33,8 @@
             <div class="ques-num-col">
                 <ul class="list-group ul-ques-num">
                     <%
-                        let num = numOfQues;
-                        let i=1;
+                        var num = numOfQues;
+                        var i=1;
                         while(i <= num){
                         %>
                         <li class="list-group-item li-ques-num">
